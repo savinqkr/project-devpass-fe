@@ -221,16 +221,16 @@ const LicenseContractRegister: NextPage = () => {
             <LicenseEstimateForm
                 register={register}
                 control={control}
-                errors={errors}
                 watch={watch}
                 getValues={getValues}
                 setValue={setValue}
+                errors={errors}
                 onClickSubmit={handleSubmit(onClickSubmit)}
                 rows={rows}
                 setRows={setRows}
                 detailsApiRef={detailsApiRef}
-                isAutoCompleteActivated={isAutoCompleteActivated}
-                setIsAutoCompleteActivated={setIsAutoCompleteActivated}
+                // isAutoCompleteActivated={isAutoCompleteActivated}
+                // setIsAutoCompleteActivated={setIsAutoCompleteActivated}
             />
         </BasicTemplate>
     );

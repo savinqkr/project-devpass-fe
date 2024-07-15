@@ -39,9 +39,15 @@ const VAutoCompleteTextfield: React.FC<
                             freeSolo
                             disableClearable
                             options={options}
-                            value={watch(registerKey)}
+                            value={watch(registerKey) || ""}
                             onChange={(event, value) => {
                                 onChange(value);
+                            }}
+                            sx={{
+                                ".MuiOutlinedInput-root .MuiAutocomplete-input":
+                                    {
+                                        padding: 0,
+                                    },
                             }}
                             renderOption={(props, option) => (
                                 <MenuItem
@@ -51,6 +57,7 @@ const VAutoCompleteTextfield: React.FC<
                                         width,
                                         height: 36,
                                     }}
+                                    key={option}
                                 >
                                     <Box
                                         sx={{
@@ -74,7 +81,6 @@ const VAutoCompleteTextfield: React.FC<
                             renderInput={params => (
                                 <TextField
                                     {...params}
-                                    className="input"
                                     ref={control.register(registerKey).ref}
                                     error={
                                         !!control.getFieldState(registerKey)

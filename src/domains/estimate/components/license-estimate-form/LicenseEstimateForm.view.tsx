@@ -34,21 +34,19 @@ const VLicenseEstimateForm: React.FC<ILicenseEstimateForm.IVProps> = props => {
     const router = useRouter();
 
     const {
+        // react-hook-form
         register,
         control,
-        setValue,
         watch,
         errors,
         onClickSubmit,
+        // Options
         clientOptions,
         projectOptions,
         employeeOptions,
-        headEmployeeOptions,
         tailOptions,
-        vatChecked,
-        handleVat,
-        specialDiscountChecked,
-        handleSpecialDiscount,
+        headEmployeeOptions,
+        // MUI DataGrid
         columns,
         rows,
         setRows,
@@ -56,12 +54,18 @@ const VLicenseEstimateForm: React.FC<ILicenseEstimateForm.IVProps> = props => {
         handleClickAddRow,
         handleClickDeleteRow,
         onCellEditStart,
+        //
+        // vatChecked,
+        // handleVat,
+        // specialDiscountChecked,
+        // handleSpecialDiscount,
     } = props;
 
     const setEstimateModal = useSetRecoilState(estimateModalState);
 
     return (
-        <div css={rootStyle(isMedium, vatChecked)}>
+        // <div css={rootStyle(isMedium, vatChecked)}>
+        <div css={rootStyle(isMedium, false)}>
             <div className="header-btn">
                 <Button
                     variant="outlined"
@@ -330,7 +334,7 @@ const VLicenseEstimateForm: React.FC<ILicenseEstimateForm.IVProps> = props => {
                             onCellEditStart={onCellEditStart}
                         />
                     </div>
-                    <div className="details-group">
+                    {/* <div className="details-group">
                         <Divider />
                         <div className="section">
                             <BasicTextField
@@ -466,7 +470,7 @@ const VLicenseEstimateForm: React.FC<ILicenseEstimateForm.IVProps> = props => {
                             height="320px"
                             errMsg="TAIL 내용을 입력해주세요."
                         />
-                    </div>
+                    </div> */}
                 </div>
                 <div className="group">
                     <p className="msg">

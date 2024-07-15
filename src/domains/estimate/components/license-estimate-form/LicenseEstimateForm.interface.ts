@@ -21,18 +21,18 @@ export namespace ILicenseEstimateForm {
     export interface IProps {
         register: UseFormRegister<ILicenseEstimateForm.IForm>;
         control: Control<ILicenseEstimateForm.IForm, any>;
-        errors: FieldErrors<ILicenseEstimateForm.IForm>;
         watch: UseFormWatch<ILicenseEstimateForm.IForm>;
         getValues: UseFormGetValues<ILicenseEstimateForm.IForm>;
         setValue: UseFormSetValue<ILicenseEstimateForm.IForm>;
+        errors: FieldErrors<ILicenseEstimateForm.IForm>;
         onClickSubmit: () => void;
         rows: GridRowsProp;
         setRows: Dispatch<SetStateAction<readonly GridValidRowModel[]>>;
         detailsApiRef: MutableRefObject<GridApiCommunity>;
-        originalEstimateData?: IGetEstimateByPkQuery.IOutput;
-        isAutoCompleteActivated: boolean;
-        setIsAutoCompleteActivated: Dispatch<SetStateAction<boolean>>;
-        removeOriginalEstimateDataCache?: () => void;
+        // originalEstimateData?: IGetEstimateByPkQuery.IOutput;
+        // isAutoCompleteActivated: boolean;
+        // setIsAutoCompleteActivated: Dispatch<SetStateAction<boolean>>;
+        // removeOriginalEstimateDataCache?: () => void;
     }
     export interface IVProps extends IProps {
         // SELECTOR 옵션
@@ -53,12 +53,12 @@ export namespace ILicenseEstimateForm {
             label: string;
             value: number;
         }[];
-        // 부가세포함 CheckBox
-        vatChecked: boolean;
-        handleVat: (event: any) => void;
-        // 특별 할인 금액 CheckBox
-        specialDiscountChecked: boolean;
-        handleSpecialDiscount: (event: any) => void;
+        // // 부가세포함 CheckBox
+        // vatChecked: boolean;
+        // handleVat: (event: any) => void;
+        // // 특별 할인 금액 CheckBox
+        // specialDiscountChecked: boolean;
+        // handleSpecialDiscount: (event: any) => void;
         // 세부내역 DataGrid
         columns: GridColDef[];
         detailsApiRef: MutableRefObject<GridApiCommunity>;
@@ -95,10 +95,10 @@ export namespace ILicenseEstimateForm {
             label: string;
             value: number | string;
         };
-        selected_employee: {
-            label: string;
-            value: number | string;
-        };
+        // selected_employee: {
+        //     label: string;
+        //     value: number | string;
+        // };
         selected_head_employee: {
             label: string;
             value: number | string;
