@@ -13,11 +13,18 @@ const ChildMenu: React.FC<IChildMenu.IProps> = props => {
     const [chatScreenRecoil, setChatScreenRecoil] =
         useRecoilState(chatScreenState);
 
-    const onClickChildMenu = () => {
+    const onClickChildMenu = (event: React.MouseEvent) => {
         setChatScreenRecoil(false);
         setIsDrawerOpen(false);
 
         // router.push(path); // <a> 태그로 대체 ( 새탭 열기 때문 )
+        if (event.ctrlKey || event.metaKey || event.button === 1) {
+            // Open in new tab
+            window.open(path, "_blank");
+        } else {
+            // Navigate in the same tab
+            router.push(path);
+        }
     };
 
     return (

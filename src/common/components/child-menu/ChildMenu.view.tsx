@@ -8,13 +8,14 @@ const VChildMenu: React.FC<IChildMenu.IVProps> = props => {
     return (
         <div
             css={rootStyle(isCurrentMenu, disabled || false)}
-            onClick={() => {
+            onClick={event => {
                 if (!disabled) {
-                    onClickChildMenu();
+                    onClickChildMenu(event);
                 }
             }}
         >
-            {!disabled ? <a href={path}>{name}</a> : <span>{name}</span>}
+            {/* {!disabled ? <a href={path}>{name}</a> : <span>{name}</span>} */}
+            <span>{name}</span>
         </div>
     );
 };

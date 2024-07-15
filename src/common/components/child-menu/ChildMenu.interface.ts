@@ -5,7 +5,7 @@ export namespace IChildMenu {
         disabled?: boolean;
     }
     export interface IVProps extends IProps {
-        onClickChildMenu: () => void;
+        onClickChildMenu: (event: React.MouseEvent) => void;
         isCurrentMenu: boolean;
     }
 }
