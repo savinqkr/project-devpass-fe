@@ -1,0 +1,75 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    font-family:
+        Pretendard,
+        -apple-system,
+        sans-serif;
+}
+
+html,
+body {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+li {
+    list-style-type: none;
+}
+
+/* SCROLL */
+/* Firefox */
+/* * {
+    scrollbar-width: thin;
+    scrollbar-color: #babac0 #fff;
+} */
+
+/* Chrome, Edge, and Safari */
+/* 전체 기본 */
+*::-webkit-scrollbar {
+    background-color: #fff;
+    width: 16px;
+}
+/* 트랙 */
+*::-webkit-scrollbar-track {
+    background-color: #fff;
+}
+/* 막대 */
+*::-webkit-scrollbar-thumb {
+    background-color: #babac0;
+    border-radius: 16px;
+    border: 4px solid #fff;
+}
+*::-webkit-scrollbar-thumb:hover {
+    background: #7a7a7a;
+    cursor: pointer;
+}
+/* 상하 버튼 */
+*::-webkit-scrollbar-button {
+    display: none;
+}
+
+/* input type이 number인 경우 우측 화살표 제거 */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* FONT */
+@font-face {
+    font-family: "Pretendard";
+    font-weight: 400;
+    src: url("/fonts/Pretendard-Regular.ttf") format("truetype");
+}

@@ -1,0 +1,20 @@
+schema:
+    - http://192.168.1.80:8082/v1/graphql:
+          headers:
+              x-hasura-role: admin
+              x-hasura-admin-secret: data2tech
+
+documents:
+    - src/**/*.query.ts
+    - src/**/*.mutation.ts
+
+generates:
+    src/codegen/graphql.ts:
+        plugins:
+            - typescript
+            - typescript-operations
+            - typed-document-node
+        config:
+            typesPrefix: I
+
+overwrite: true

@@ -1,0 +1,132 @@
+name: Gitea Actions Workflow for DEVPASS [ FE ]
+run-name: ${{ gitea.actor }} is testing out automated Docker Image Deployment with Gitea Actions 🚀
+
+on:
+    push:
+        branches:
+            - develop
+    # push:
+    #     tags:
+    #         - "v[0-9]+.[0-9]+.[0-9]+-alpha.[0-9]+"
+
+env:
+    # BASIC ######################################################
+    DB_ENV: DEVELOP
+    # NEXT #######################################################
+    # IMAGE
+    NEXT_IMAGE_NAME: ${{ secrets.BASE_URL }}/fe/project-devpass-fe
+    # DOCKER FILE
+    NEXT_DOCKER_FILE: dockerfile.dev.yaml
+    # CONTAINER
+    NEXT_CONTAINER: devpass-frontend-dev
+    # PORT
+    NEXT_PORT: 3002
+
+jobs:
+    build-and-push:
+        runs-on: fe-ubuntu-22.04
+
+        steps:
+            - name: CheckOut
+              uses: https://github.com/actions/checkout@v4
+
+            # # TAG 확인
+            # - name: Check Version Tag
+            #   if: startsWith(github.ref, 'refs/tags/')
+            #   run: |
+            #       echo "🔖 Checking version tag..."
+
+            #       echo "${{ github.ref }}"
+            #       tag=$(echo "${{ github.ref }}" | cut -d '/' -f 3)
+            #       echo "✨ Version : $tag"
+            #       echo "::set-env name=VERSION_TAG::$tag"
+
+            #       echo "🍀 Version tag checked successfully."
+
+            # TAG 설정 ( 개발용 )
+            - name: SET Version Tag
+              run: |
+                  echo "🔖 Setting version tag..."
+                  echo "::set-env name=VERSION_TAG::develop"
+
+                  echo "✨ Version : ${{ env.VERSION_TAG }}"
+                  echo "🍀 Version tag setted successfully."
+
+            # ENV 확인
+            - name: Check Environment Settings
+              run: |
+                  echo "🔧 Determining environment based on version tag..."
+
+                  echo "✨ ENV"
+                  echo "• DB_ENV: ${{ env.DB_ENV }}"
+
+                  echo "✨ VERSION"
+                  echo "• VERSION_TAG: ${{ env.VERSION_TAG }}"
+
+                  echo "✨ NEXT APPILCATION"
+                  echo "• NEXT_IMAGE_NAME: ${{ env.NEXT_IMAGE_NAME }}"
+                  echo "• NEXT_DOCKER_FILE: ${{ env.NEXT_DOCKER_FILE }}"
+                  echo "• NEXT_CONTAINER: ${{ env.NEXT_CONTAINER }}"
+                  echo "• NEXT_PORT: ${{ env.NEXT_PORT }}"
+
+            # Docker 로그인 & Registry 연결
+            - name: Docker Login
+              if: env.VERSION_TAG
+              uses: docker/login-action@v3
+              with:
+                  registry: ${{ secrets.BASE_URL }}
+                  username: ${{ secrets.SAVIN_USERNAME }}
+                  password: ${{ secrets.SAVIN_PASSWORD}}
+
+            # [ Next Application ] Docker 이미지 빌드 & 푸시
+            - name: Build & Push Next Application Docker Image
+              if: env.VERSION_TAG
+              run: |
+                  echo "🪄 [ ${{ env.NEXT_IMAGE_NAME }}:${{ env.VERSION_TAG }} ] Building Docker image..."
+
+                  docker build -f ${{ env.NEXT_DOCKER_FILE }} -t ${{ env.NEXT_IMAGE_NAME }}:${{ env.VERSION_TAG }} .
+
+                  echo "🍀 [ ${{ env.NEXT_IMAGE_NAME }}:${{ env.VERSION_TAG }} ] Docker image built successfully!"
+
+
+                  echo "🚀 [ ${{ env.NEXT_IMAGE_NAME }}:${{ env.VERSION_TAG }} ] Pushing Docker image to registry..."
+
+                  docker push ${{ env.NEXT_IMAGE_NAME }}:${{ env.VERSION_TAG }}
+
+                  echo "🍀 [ ${{ env.NEXT_IMAGE_NAME }}:${{ env.VERSION_TAG }} ] Docker image pushed successfully!"
+
+            # Docker 컨테이더 중지
+            - name: Stop Docker Container
+              if: env.VERSION_TAG
+              run: |
+                  echo "🛑 Stopping Docker container if it's running..."
+                  if [ $(docker ps -q -f name=${{ env.NEXT_CONTAINER }}) ]; then
+                    docker stop ${{ env.NEXT_CONTAINER }}
+                    echo "🍀 Docker container stopped successfully!"
+                  else
+                    echo "⚠️ No running container found with the name ${{ env.NEXT_CONTAINER }}."
+                  fi
+
+            # Docker 컨테이더 삭제
+            - name: Remove Docker Container
+              if: env.VERSION_TAG
+              run: |
+                  echo "🗑 Removing existing Docker container if it exists..."
+                  if [ $(docker ps -aq -f name=${{ env.NEXT_CONTAINER }}) ]; then
+                    docker rm ${{ env.NEXT_CONTAINER }}
+                    echo "🍀 Docker container removed successfully!"
+                  else
+                    echo "⚠️ No container found with the name ${{ env.NEXT_CONTAINER }} to remove."
+                  fi
+
+            # Docker 컨테이더 재실행 ( 새로 빌드한 이미지 )
+            - name: Restart Docker Container
+              if: env.VERSION_TAG
+              run: |
+                  echo "🚀 Starting new Docker container with the latest image..."
+
+                  docker run -d --name ${{ env.NEXT_CONTAINER }} \
+                    -p ${{ env.NEXT_PORT }}:3000 \
+                    ${{ env.NEXT_IMAGE_NAME }}:${{ env.VERSION_TAG }}
+
+                  echo "🍀 Docker container started successfully with the new image!"
